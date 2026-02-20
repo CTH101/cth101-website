@@ -12,6 +12,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -25,10 +26,12 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 60px;
+    padding: 20px 80px;
     background-color: rgba(15,15,15,0.9);
-    position: sticky;
-    top: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
 }
 
 .logo {
@@ -40,20 +43,21 @@ nav {
 nav ul {
     display: flex;
     list-style: none;
-    gap: 30px;
+    gap: 40px;
 }
 
-nav ul li {
-    cursor: pointer;
+nav ul li a {
+    text-decoration: none;
+    color: white;
     font-weight: 500;
 }
 
-nav ul li:hover {
+nav ul li a:hover {
     color: #1F6FEB;
 }
 
 .hero {
-    height: 90vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -64,7 +68,7 @@ nav ul li:hover {
 }
 
 .hero h1 {
-    font-size: 54px;
+    font-size: 58px;
     font-weight: 800;
     margin-bottom: 20px;
 }
@@ -75,16 +79,13 @@ nav ul li:hover {
     max-width: 700px;
 }
 
-.cta {
-    margin-top: 40px;
-}
-
 .cta button {
-    padding: 14px 28px;
+    margin-top: 40px;
+    padding: 16px 32px;
     font-size: 16px;
     font-weight: 600;
-    background-color: #1F6FEB;
-    color: #fff;
+    background: linear-gradient(90deg, #1F6FEB, #1559c1);
+    color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -92,32 +93,71 @@ nav ul li:hover {
 }
 
 .cta button:hover {
-    background-color: #1559c1;
+    transform: translateY(-3px);
 }
 
 .section {
-    padding: 100px 80px;
+    padding: 120px 100px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .section h2 {
-    font-size: 36px;
+    font-size: 40px;
     margin-bottom: 30px;
 }
 
 .card {
     background-color: #1A1A1A;
-    padding: 30px;
-    border-radius: 10px;
+    padding: 40px;
+    border-radius: 12px;
     margin-bottom: 20px;
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(31,111,235,0.2);
 }
 
 footer {
-    padding: 40px;
+    padding: 60px;
     text-align: center;
     background-color: #1A1A1A;
     color: #777;
-    margin-top: 60px;
 }
+
+.contact {
+    text-align: center;
+    padding: 120px 20px;
+}
+
+.contact input, .contact textarea {
+    width: 100%;
+    max-width: 600px;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: none;
+    background-color: #1A1A1A;
+    color: white;
+}
+
+.contact button {
+    padding: 14px 28px;
+    background-color: #1F6FEB;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+}
+
 </style>
 </head>
 
@@ -126,52 +166,68 @@ footer {
 <nav>
     <div class="logo">CTH101</div>
     <ul>
-        <li>Home</li>
-        <li>Products</li>
-        <li>Labs</li>
-        <li>About</li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#labs">Labs</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
     </ul>
 </nav>
 
-<section class="hero">
+<section class="hero" id="home">
     <h1>Security, Engineered from the Core.</h1>
-    <p>CTH101 builds AI-powered cybersecurity products grounded in strong defensive fundamentals and offensive security intelligence.</p>
+    <p>CTH101 builds AI-powered cybersecurity products grounded in strong defensive fundamentals and offensive intelligence.</p>
     <div class="cta">
         <button>Explore LogGuard AI</button>
     </div>
 </section>
 
-<section class="section">
-    <h2>What We Build</h2>
+<section class="section" id="products">
+    <h2>LogGuard AI</h2>
     <div class="card">
-        Intelligent cybersecurity platforms powered by anomaly detection, log intelligence, and research-driven threat modeling.
+        Intelligent log analysis platform that detects anomalies, suspicious behavior, and transforms raw logs into actionable security intelligence.
     </div>
 </section>
 
-<section class="section">
-    <h2>Product: LogGuard AI</h2>
-    <div class="card">
-        AI-powered log analysis platform that detects anomalies, identifies suspicious behavior, and converts raw logs into actionable security intelligence.
-    </div>
-</section>
-
-<section class="section">
+<section class="section" id="labs">
     <h2>CTH Labs</h2>
     <div class="card">
-        Research division focused on advanced anomaly detection models, machine learning experimentation, and next-generation threat detection systems.
+        Research-driven development of anomaly detection models, ML experimentation, and next-generation threat detection systems.
     </div>
 </section>
 
-<section class="section">
+<section class="section" id="about">
     <h2>About CTH101</h2>
     <div class="card">
-        Founded by Chirag, Tanmay, and Harshit, CTH101 is dedicated to building scalable, intelligent cybersecurity systems engineered from strong security fundamentals.
+        Founded by Chirag, Tanmay, and Harshit, CTH101 focuses on building scalable cybersecurity systems engineered with strong security fundamentals.
     </div>
+</section>
+
+<section class="contact" id="contact">
+    <h2>Contact Us</h2>
+    <input type="text" placeholder="Your Name">
+    <input type="email" placeholder="Your Email">
+    <textarea rows="5" placeholder="Your Message"></textarea>
+    <br>
+    <button>Send Message</button>
 </section>
 
 <footer>
     © 2026 CTH101. All Rights Reserved.
 </footer>
+
+<script>
+const sections = document.querySelectorAll('.section');
+
+window.addEventListener('scroll', () => {
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if(sectionTop < window.innerHeight - 100){
+            section.classList.add('visible');
+        }
+    });
+});
+</script>
 
 </body>
 </html>
