@@ -4,104 +4,168 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CTH101 | Security, Engineered from the Core</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
 <style>
-body {
+* {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #0F0F0F;
-    color: #ffffff;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-header {
-    padding: 20px 60px;
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0F0F0F;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #1A1A1A;
+    padding: 20px 60px;
+    background-color: rgba(15,15,15,0.9);
+    position: sticky;
+    top: 0;
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: bold;
+    font-weight: 800;
+    font-size: 22px;
     color: #A4161A;
 }
 
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+nav ul li {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+nav ul li:hover {
+    color: #1F6FEB;
+}
+
 .hero {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 120px 20px;
+    padding: 0 20px;
+    background: radial-gradient(circle at top, #1A1A1A 0%, #0F0F0F 60%);
 }
 
 .hero h1 {
-    font-size: 48px;
+    font-size: 54px;
+    font-weight: 800;
     margin-bottom: 20px;
 }
 
 .hero p {
     font-size: 20px;
     color: #bbbbbb;
+    max-width: 700px;
+}
+
+.cta {
+    margin-top: 40px;
+}
+
+.cta button {
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #1F6FEB;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.cta button:hover {
+    background-color: #1559c1;
 }
 
 .section {
-    padding: 80px 60px;
+    padding: 100px 80px;
 }
 
 .section h2 {
-    font-size: 32px;
-    margin-bottom: 20px;
+    font-size: 36px;
+    margin-bottom: 30px;
 }
 
 .card {
     background-color: #1A1A1A;
     padding: 30px;
-    margin: 20px 0;
     border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 footer {
+    padding: 40px;
     text-align: center;
-    padding: 30px;
     background-color: #1A1A1A;
     color: #777;
+    margin-top: 60px;
 }
 </style>
 </head>
+
 <body>
 
-<header>
+<nav>
     <div class="logo">CTH101</div>
-    <div>Security, Engineered from the Core.</div>
-</header>
+    <ul>
+        <li>Home</li>
+        <li>Products</li>
+        <li>Labs</li>
+        <li>About</li>
+    </ul>
+</nav>
 
 <section class="hero">
-    <h1>Intelligent Cybersecurity Products</h1>
-    <p>AI-driven defensive systems built on strong security fundamentals.</p>
+    <h1>Security, Engineered from the Core.</h1>
+    <p>CTH101 builds AI-powered cybersecurity products grounded in strong defensive fundamentals and offensive security intelligence.</p>
+    <div class="cta">
+        <button>Explore LogGuard AI</button>
+    </div>
 </section>
 
 <section class="section">
     <h2>What We Build</h2>
     <div class="card">
-        Scalable cybersecurity products powered by machine learning, threat intelligence, and offensive research insights.
+        Intelligent cybersecurity platforms powered by anomaly detection, log intelligence, and research-driven threat modeling.
     </div>
 </section>
 
 <section class="section">
     <h2>Product: LogGuard AI</h2>
     <div class="card">
-        AI-powered log analysis platform designed to detect anomalies, identify threats, and transform raw logs into actionable intelligence.
+        AI-powered log analysis platform that detects anomalies, identifies suspicious behavior, and converts raw logs into actionable security intelligence.
     </div>
 </section>
 
 <section class="section">
     <h2>CTH Labs</h2>
     <div class="card">
-        Research division focused on anomaly detection models, log intelligence systems, and advanced security experimentation.
+        Research division focused on advanced anomaly detection models, machine learning experimentation, and next-generation threat detection systems.
     </div>
 </section>
 
 <section class="section">
-    <h2>About Us</h2>
+    <h2>About CTH101</h2>
     <div class="card">
-        Founded by Chirag, Tanmay, and Harshit, CTH101 is built on strong technical foundations and a passion for intelligent security systems.
+        Founded by Chirag, Tanmay, and Harshit, CTH101 is dedicated to building scalable, intelligent cybersecurity systems engineered from strong security fundamentals.
     </div>
 </section>
 
