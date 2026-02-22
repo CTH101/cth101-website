@@ -10,16 +10,20 @@ export default function Register() {
 
     try {
 
-      const response = await fetch("http://127.0.0.1:8000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          password
-        })
-      })
+      const response = await fetch(
+  "https://cth101-website-production.up.railway.app/register",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      email,
+      password
+    })
+  }
+)
+
 
       const data = await response.json()
 
