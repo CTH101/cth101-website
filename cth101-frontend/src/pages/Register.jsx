@@ -27,12 +27,12 @@ export default function Register() {
 
       const data = await response.json()
 
-      if (data.message) {
-        alert("Account created successfully")
+    if (response.ok) {
+        alert("Registration successful")
         window.location.href = "/"
-      } else {
-        alert("Registration failed")
-      }
+    } else {
+        alert(data.error || "Registration failed")
+    }  
 
     } catch (error) {
       alert("Server error")
