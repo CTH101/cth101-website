@@ -1,0 +1,10 @@
+LogHawk 2.0 Report
+{
+    "ssh": [],
+    "firewall": [],
+    "ids": [],
+    "malware": [],
+    "web": [],
+    "system": [],
+    "ml": []
+}

@@ -1,0 +1,10 @@
+Jul 21 10:15:32 server sshd[1234]: Accepted password for admin from 192.168.1.10 port 53211 ssh2
+Jul 21 10:16:01 server sshd[1235]: Failed password for invalid user root from 203.0.113.5 port 42100 ssh2
+Jul 21 10:16:05 server sshd[1236]: Failed password for invalid user root from 203.0.113.5 port 42101 ssh2
+Jul 21 10:16:09 server sshd[1237]: Failed password for invalid user root from 203.0.113.5 port 42102 ssh2
+Jul 21 10:16:15 server sshd[1238]: Failed password for invalid user admin from 198.51.100.23 port 43021 ssh2
+Jul 21 10:17:02 server sshd[1240]: Accepted password for user1 from 192.168.1.15 port 53333 ssh2
+Jul 21 10:18:11 server sshd[1245]: Failed password for invalid user test from 203.0.113.5 port 42105 ssh2
+Jul 21 10:18:21 server sshd[1247]: Failed password for invalid user test from 203.0.113.5 port 42107 ssh2
+Jul 21 10:19:01 server sshd[1250]: Accepted publickey for dev from 192.168.1.22 port 52000 ssh2
+Jul 21 10:19:30 server sshd[1252]: Failed password for invalid user admin from 198.51.100.23 port 43023 ssh2

@@ -1,0 +1,29 @@
+{
+    "ssh": {
+        "bruteforce_threshold": 5,
+        "suspicious_hours": {
+            "start": 0,
+            "end": 6
+        },
+        "ml_enabled": true
+    },
+    "firewall": {
+        "portscan_threshold": 10,
+        "large_outbound_threshold": 1000000
+    },
+    "ids": {
+        "enabled": true
+    },
+    "malware": {
+        "enabled": true
+    },
+    "web": {
+        "enabled": true
+    },
+    "system": {
+        "enabled": true
+    },
+    "ml": {
+        "contamination": 0.1
+    }
+}
