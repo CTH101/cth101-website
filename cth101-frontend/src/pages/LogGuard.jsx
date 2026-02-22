@@ -24,13 +24,19 @@ export default function LogGuard() {
 
       setLoading(true)
 
-      const response = await fetch(
+      const token = localStorage.getItem("token")
+
+const response = await fetch(
   "https://cth101-website-production.up.railway.app/analyze",
   {
     method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
     body: formData
   }
 )
+
 
 
       const data = await response.json()
