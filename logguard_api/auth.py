@@ -1,8 +1,6 @@
 from jose import jwt
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
-import json
-import os
 
 SECRET_KEY = "cth101_secret_key"
 ALGORITHM = "HS256"
@@ -10,71 +8,47 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-USER_DB = "users.json"
-
-
-# create user database file if not exists
-if not os.path.exists(USER_DB):
-    with open(USER_DB, "w") as f:
-        json.dump([], f)
-
-
-def get_users():
-    with open(USER_DB, "r") as f:
-        return json.load(f)
-
-
-def save_users(users):
-    with open(USER_DB, "w") as f:
-        json.dump(users, f, indent=4)
-
-
-def verify_password(plain, hashed):
-    return pwd_context.verify(plain, hashed)
+# In-memory user database
+users_db = {}
 
 
 def hash_password(password):
     return pwd_context.hash(password)
 
 
+def verify_password(plain, hashed):
+    return pwd_context.verify(plain, hashed)
+
+
 def register_user(email, password):
 
-    users = get_users()
+    if email in users_db:
+        return False
 
-    for user in users:
-        if user["email"] == email:
-            return None
-
-    hashed_password = hash_password(password)
-
-    users.append({
+    users_db[email] = {
         "email": email,
-        "password": hashed_password
-    })
+        "password": hash_password(password)
+    }
 
-    save_users(users)
-
-    return {"email": email}
+    return True
 
 
 def authenticate_user(email, password):
 
-    users = get_users()
+    user = users_db.get(email)
 
-    for user in users:
+    if not user:
+        return False
 
-        if user["email"] == email:
+    if not verify_password(password, user["password"]):
+        return False
 
-            if verify_password(password, user["password"]):
-                return user
-
-    return False
+    return user
 
 
 def create_access_token(data: dict):
 
     to_encode = data.copy()
-
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
     to_encode.update({"exp": expire})
