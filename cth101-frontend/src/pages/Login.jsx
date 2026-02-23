@@ -1,125 +1,128 @@
 import { useState } from "react"
 
-export default function LogGuard() {
+export default function Login() {
 
-const [logType, setLogType] = useState("")
-const [selectedFile, setSelectedFile] = useState(null)
+const [email, setEmail] = useState("")
+const [password, setPassword] = useState("")
 const [loading, setLoading] = useState(false)
-const [result, setResult] = useState(null)
 
-const handleAnalyze = async () => {
+const handleLogin = async (e) => {
+e.preventDefault()
 
-if (!selectedFile) {
-alert("Please select a log file")
-return
+
+if (!email || !password) {
+  alert("Please enter email and password")
+  return
 }
-
-const token = localStorage.getItem("token")
-
-if (!token) {
-alert("Login expired. Please login again.")
-window.location.href = "/"
-return
-}
-
-const formData = new FormData()
-formData.append("log_type", logType)
-formData.append("file", selectedFile)
 
 try {
 
-setLoading(true)
+  setLoading(true)
 
-const response = await fetch(
-"https://cth101-website-production.up.railway.app/analyze",
-{
-method: "POST",
-headers: {
-Authorization: `Bearer ${token}`
-},
-body: formData
-}
+  const response = await fetch(
+  "https://cth101-website-production.up.railway.app/login",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      email,
+      password
+    })
+  }
 )
 
-const data = await response.json()
 
-if (!response.ok) {
-alert(data.error || "Analysis failed")
-setLoading(false)
-return
+  const data = await response.json()
+
+  if (response.ok) {
+
+  localStorage.setItem("token", data.access_token)
+
+  window.location.href = "/home"
+
+} else {
+
+  alert(data.error || "Invalid credentials")
+
 }
 
-setResult(data)
+  setLoading(false)
 
 } catch (error) {
 
-console.error(error)
-alert("Server connection error")
+  console.error(error)
+  alert("Server connection error")
+  setLoading(false)
 
 }
 
-setLoading(false)
 
 }
 
 return (
 
-<div className="min-h-screen bg-black flex items-center justify-center p-6">
 
-<div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-10 w-full max-w-3xl">
+<div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden">
 
-<h1 className="text-3xl font-bold mb-4 text-center">
-LogGuard
-</h1>
+  {/* Background glow */}
 
-<p className="text-gray-400 text-center mb-6">
-Security Log Analyzer
+  <div className="absolute w-[500px] h-[500px] bg-blue-600 opacity-20 blur-[150px] top-[-100px] left-[-100px]"></div>
+  <div className="absolute w-[400px] h-[400px] bg-purple-600 opacity-20 blur-[120px] bottom-[-100px] right-[-100px]"></div>
+
+
+  {/* Login Card */}
+
+  <div className="relative bg-zinc-900 border border-zinc-800 rounded-2xl p-10 w-full max-w-md backdrop-blur-lg">
+
+    <h1 className="text-4xl font-bold text-center mb-2">
+      CTH101
+    </h1>
+
+    <p className="text-gray-400 text-center mb-8">
+      Cybersecurity Intelligence Platform
+    </p>
+
+
+    <form onSubmit={handleLogin}>
+
+      <input
+        type="email"
+        placeholder="Email"
+        className="w-full mb-4 px-4 py-3 bg-black border border-zinc-700 rounded-md text-white focus:outline-none focus:border-blue-500"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        className="w-full mb-6 px-4 py-3 bg-black border border-zinc-700 rounded-md text-white focus:outline-none focus:border-blue-500"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <button
+        className="w-full bg-blue-600 py-3 rounded-md hover:bg-blue-700 transition font-semibold"
+      >
+        {loading ? "Logging in..." : "Login"}
+      </button>
+      <p className="text-gray-400 text-sm mt-4 text-center">
+  Don't have an account? 
+  <a href="/register" className="text-blue-500 ml-1">Register</a>
 </p>
 
-<select
-className="w-full mb-4 px-4 py-3 bg-black border border-zinc-700 rounded-md text-white"
-value={logType}
-onChange={(e)=>setLogType(e.target.value)}
->
-<option value="">Select Log Type</option>
-<option value="firewall">Firewall</option>
-<option value="ssh">SSH</option>
-<option value="web">Web</option>
-<option value="system">System</option>
-<option value="ids">IDS</option>
-</select>
 
-<input
-type="file"
-className="w-full mb-6 text-white"
-onChange={(e)=>setSelectedFile(e.target.files[0])}
-/>
+    </form>
 
-<button
-onClick={handleAnalyze}
-className="w-full bg-blue-600 py-3 rounded-md hover:bg-blue-700 transition font-semibold"
->
-{loading ? "Analyzing..." : "Analyze Log"}
-</button>
 
-{result && (
+    <p className="text-gray-500 text-center mt-6 text-sm">
+      Powered by CTH101 Security Labs
+    </p>
 
-<div className="mt-8 bg-black border border-zinc-700 rounded-md p-4">
-
-<h2 className="text-xl font-semibold mb-3">Analysis Result</h2>
-
-<pre className="text-green-400 text-sm overflow-x-auto">
-{JSON.stringify(result, null, 2)}
-</pre>
+  </div>
 
 </div>
 
-)}
-
-</div>
-
-</div>
 
 )
-
 }
