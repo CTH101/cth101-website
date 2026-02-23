@@ -1,61 +1,60 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
 
-export default function Login() {
+export default function LogGuard() {
 
-const [email, setEmail] = useState("")
-const [password, setPassword] = useState("")
+const [logType, setLogType] = useState("")
+const [selectedFile, setSelectedFile] = useState(null)
 const [loading, setLoading] = useState(false)
+const [result, setResult] = useState(null)
 
-const navigate = useNavigate()
+const handleAnalyze = async () => {
 
-const handleLogin = async (e) => {
-
-e.preventDefault()
-
-if (!email || !password) {
-  alert("Please enter email and password")
-  return
+if (!selectedFile) {
+alert("Please select a log file")
+return
 }
+
+const token = localStorage.getItem("token")
+
+if (!token) {
+alert("Login expired. Please login again.")
+window.location.href = "/"
+return
+}
+
+const formData = new FormData()
+formData.append("log_type", logType)
+formData.append("file", selectedFile)
 
 try {
 
-  setLoading(true)
+setLoading(true)
 
-  const response = await fetch(
-    "https://cth101-website-production.up.railway.app/login",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
-    }
-  )
+const response = await fetch(
+"https://cth101-website-production.up.railway.app/analyze",
+{
+method: "POST",
+headers: {
+Authorization: `Bearer ${token}`
+},
+body: formData
+}
+)
 
-  const data = await response.json()
+const data = await response.json()
 
-  if (response.ok) {
+if (!response.ok) {
+alert(data.error || "Analysis failed")
+setLoading(false)
+return
+}
 
-    // save token
-    localStorage.setItem("token", data.access_token)
-
-    // redirect to home
-    navigate("/home")
-
-  } else {
-
-    alert(data.error || "Invalid credentials")
-
-  }
+setResult(data)
 
 } catch (error) {
 
-  console.error(error)
-  alert("Server connection error")
+console.error(error)
+alert("Server connection error")
 
 }
 
@@ -65,62 +64,59 @@ setLoading(false)
 
 return (
 
-<div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden">
+<div className="min-h-screen bg-black flex items-center justify-center p-6">
 
-  {/* Background glow */}
+<div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-10 w-full max-w-3xl">
 
-  <div className="absolute w-[500px] h-[500px] bg-blue-600 opacity-20 blur-[150px] top-[-100px] left-[-100px]"></div>
-  <div className="absolute w-[400px] h-[400px] bg-purple-600 opacity-20 blur-[120px] bottom-[-100px] right-[-100px]"></div>
+<h1 className="text-3xl font-bold mb-4 text-center">
+LogGuard
+</h1>
 
-  {/* Login Card */}
+<p className="text-gray-400 text-center mb-6">
+Security Log Analyzer
+</p>
 
-  <div className="relative bg-zinc-900 border border-zinc-800 rounded-2xl p-10 w-full max-w-md backdrop-blur-lg">
+<select
+className="w-full mb-4 px-4 py-3 bg-black border border-zinc-700 rounded-md text-white"
+value={logType}
+onChange={(e)=>setLogType(e.target.value)}
+>
+<option value="">Select Log Type</option>
+<option value="firewall">Firewall</option>
+<option value="ssh">SSH</option>
+<option value="web">Web</option>
+<option value="system">System</option>
+<option value="ids">IDS</option>
+</select>
 
-    <h1 className="text-4xl font-bold text-center mb-2">
-      CTH101
-    </h1>
+<input
+type="file"
+className="w-full mb-6 text-white"
+onChange={(e)=>setSelectedFile(e.target.files[0])}
+/>
 
-    <p className="text-gray-400 text-center mb-8">
-      Cybersecurity Intelligence Platform
-    </p>
+<button
+onClick={handleAnalyze}
+className="w-full bg-blue-600 py-3 rounded-md hover:bg-blue-700 transition font-semibold"
+>
+{loading ? "Analyzing..." : "Analyze Log"}
+</button>
 
-    <form onSubmit={handleLogin}>
+{result && (
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        className="w-full mb-4 px-4 py-3 bg-black border border-zinc-700 rounded-md text-white focus:outline-none focus:border-blue-500"
-        onChange={(e) => setEmail(e.target.value)}
-      />
+<div className="mt-8 bg-black border border-zinc-700 rounded-md p-4">
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        className="w-full mb-6 px-4 py-3 bg-black border border-zinc-700 rounded-md text-white focus:outline-none focus:border-blue-500"
-        onChange={(e) => setPassword(e.target.value)}
-      />
+<h2 className="text-xl font-semibold mb-3">Analysis Result</h2>
 
-      <button
-        type="submit"
-        className="w-full bg-blue-600 py-3 rounded-md hover:bg-blue-700 transition font-semibold"
-      >
-        {loading ? "Logging in..." : "Login"}
-      </button>
+<pre className="text-green-400 text-sm overflow-x-auto">
+{JSON.stringify(result, null, 2)}
+</pre>
 
-      <p className="text-gray-400 text-sm mt-4 text-center">
-        Don't have an account?
-        <a href="/register" className="text-blue-500 ml-1">Register</a>
-      </p>
+</div>
 
-    </form>
+)}
 
-    <p className="text-gray-500 text-center mt-6 text-sm">
-      Powered by CTH101 Security Labs
-    </p>
-
-  </div>
+</div>
 
 </div>
 
