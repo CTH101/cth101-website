@@ -45,9 +45,9 @@ async def login(email: str = Body(...), password: str = Body(...)):
 @app.post("/register")
 async def register(email: str = Body(...), password: str = Body(...)):
 
-    user = register_user(email, password)
+    success = register_user(email, password)
 
-    if not user:
+    if not success:
         return {"error": "User already exists"}
 
     return {"message": "User registered successfully"}
